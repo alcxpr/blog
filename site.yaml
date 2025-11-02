@@ -4,6 +4,7 @@ meta:
 
 site:
   origin: https://alcxpr.github.io/blog
+  base: /blog/
   view_transitions: true
 
 rss:
@@ -17,6 +18,6 @@ design:
 
 collections:
   blog:
-    include: [blog/posts/]
+    include: [posts/]
     require: [title]
     sort: date desc
