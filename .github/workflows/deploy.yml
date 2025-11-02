@@ -1,0 +1,43 @@
+# Deploy to GitHub pages CI/CD script
+# for NueJS blog
+name: Deploy to GitHub pages
+
+# Trigger when either main branch is updated or from manual runs
+# from the Actions tab.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    # This simply checks out the repository content and setup the
+    # Bun runtime. Then, install Nuekit globally via Bun CLI.
+    #
+    # After that, build the site. The output is defaulted to `./dist`
+    # directory. Now, deploy `./dist` contents to the `pages` branch.
+    # If the branch doesn't exist, it will be created automatically.
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install --global nuekit
+
+      - name: Build site
+        run: bunx nue build
+
+      - name: Deploy to GitHub pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+          publish_branch: pages
+          force_orphan: true
