@@ -9,6 +9,10 @@ on:
     branches: [main]
   workflow_dispatch:
 
+# Give write permission to allow pushing to the `pages branch.
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
