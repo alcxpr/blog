@@ -17,6 +17,6 @@ design:
 
 collections:
   blog:
-    include: [posts/]
+    include: [blogs/]
     require: [title]
     sort: date desc
