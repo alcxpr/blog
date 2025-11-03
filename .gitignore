@@ -1,0 +1,8 @@
+# TS & JS dependencies
+node_modules/
+
+# Processed files to be deployed
+.dist/
+
+# Bun
+bun.lock
