@@ -30,7 +30,7 @@ jobs:
     # Bun runtime. Then, install Nuekit globally via Bun CLI.
     #
     # After that, build the site. The output is defaulted to `./dist`
-    # directory. Now, deploy `./dist` contents to the `pages` branch.
+    # directory. Now, deploy `./.dist` contents to the `pages` branch.
     # If the branch doesn't exist, it will be created automatically.
     steps:
       - name: Checkout Repository
@@ -54,7 +54,7 @@ jobs:
       - name: Upload Build Artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./dist
+          path: ./.dist
 
   deploy:
     # The deploy job publishes the uploaded site artifact to GitHub pages.
