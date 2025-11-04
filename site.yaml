@@ -3,8 +3,7 @@ meta:
   author: alcxpr
 
 site:
-  origin: https://alcxpr.github.io
-  base: blog/
+  origin: https://alcxpr.github.io/
   view_transitions: true
 
 rss:
