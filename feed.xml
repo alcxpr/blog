@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+<channel>
+
+    <link>https://alcxpr.dev/</link>
+    <title>Compiler Log</title>
+    <description>Blog & Notes</description>
+  
+<item>
+  <title>Hello, World!</title>
+  <description>Saying hello from my first blog post!</description>
+  <pubDate>2025-11-04</pubDate>
+  <link>https://alcxpr.dev//posts/hello-world</link>
+</item>
+</channel>
+</rss>
