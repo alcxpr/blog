@@ -3,7 +3,8 @@
     <h1>{ title }</h1>
     <ul>
         <li :each="page in blog">
-            <a href="./{ page.url }">
+            <a href=".{ page.url }">
+                <!-- or ./{ page.url } -->
                 <p><time>{ formatDate(page.date) }</time></p>
                 <h3>{ page.title }</h3>
                 <p>{{ markdown(page.description) }}</p>

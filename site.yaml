@@ -4,7 +4,7 @@ meta:
 
 site:
   origin: https://alcxpr.github.io
-  base: /blog
+  base: blog/
   view_transitions: true
 
 rss:
