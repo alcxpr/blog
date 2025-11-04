@@ -1,6 +1,6 @@
 # Blog
 
-This is my blog's source code. It also is my [nue](https://github.com/nuejs/nue) playground.
+This is my blog's source code. It also is my frontend playground.
 Currently, it features a super minimal site from the `blog` template.
 
 Most posts here are about compiler behaviors and low-level stuffs like file formats.

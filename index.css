@@ -1,161 +1,204 @@
-
 /* settings  */
 @layer base, components;
 
 @layer base {
-
-  *, *:before, *:after {
-    box-sizing: border-box;
-  }
-
-  /* colors */
-  :root {
-    --base-100: #f5f7f9;
-    --base-200: #E2E8F0;
-    --base-400: #94A3B8;
-    --base-600: #475569;
-    --base-800: #1E293B;
-  }
-
-  /* global layout & styling */
-  body {
-    line-height: 1.5;
-    font-family: system-ui;
-    color: var(--base-600);
-    padding: 1rem 1.5rem;
-    margin: 0;
-
-    /* header */
-    > header {
-      border-bottom: 1px solid var(--base-200);
-      padding-bottom: 1rem;
-      a {
-        text-decoration: none;
-        color: var(--base-800);
-        font-weight: 600;
-      }
+    *,
+    *:before,
+    *:after {
+        box-sizing: border-box;
     }
 
-    > main {
-      max-width: 650px;
-      margin: 6rem auto;
-      min-height: calc(100vh - 32rem);
+    /* colors */
+    :root {
+        --base-100: #1a1a1a;
+        --base-200: #2a2a2a;
+        --base-400: #9ca3af;
+        --base-600: #d1d5db;
+        --base-800: #f5f5f5;
     }
 
-    /* footer */
-    > footer {
-      text-align: center;
-      border-top: 1px solid var(--base-200);
-      color: var(--base-800);
-      padding-block: 6rem;
-    }
-  }
+    /* global layout & styling */
+    body {
+        line-height: 1.5;
+        font-family: system-ui;
+        color: var(--base-600);
+        padding: 1rem 1.5rem;
+        margin: 0;
+        background-color: #0d0d0d;
 
+        /* header */
+        > header {
+            border-bottom: 1px solid var(--base-200);
+            padding-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
 
-  /* typography */
-  h1, h2, h3, strong {
-    color: var(--base-800);
-  }
+            a {
+                text-decoration: none;
+                color: var(--base-800);
+                font-weight: 600;
 
-  h1 {
-    font-size: 2.5em;
-    font-weight: 800;
-    line-height: 1.125;
-    letter-spacing: -.02em;
-    margin-block: .25em;
+                img {
+                    width: 1.5rem;
+                    height: 1.5rem;
+                    display: block;
+                    transition: opacity 0.2s;
+                }
 
-    + p {
-      font-size: 1.25em;
-      margin: 0;
-    }
-  }
+                &:hover img {
+                    opacity: 0.7;
+                }
+            }
+        }
 
-  h2 {
-    margin-block: 3em -.25em;
-  }
+        > main {
+            max-width: 650px;
+            margin: 6rem auto;
+            min-height: calc(100vh - 32rem);
+        }
 
-  p {
-    text-wrap: pretty;
-  }
-
-  /* placeholder images */
-  figure {
-    background-color: var(--base-200);
-    margin: 1.5em 0;
-
-    > div {
-      height: var(--height);
-    }
-
-    @media (width > 900px) {
-      &.hero {
-        margin: 3em -15vw;
-      }
-    }
-
-    /* bauhaus coloring */
-    &.yellow  { background-color: #F6C950 }
-    &.blue    { background-color: #2A63B3 }
-    &.red     { background-color: #CB3B32 }
-  }
-
-
-  /* syntax blocks */
-  pre {
-    background-color: var(--base-100);
-    color: #005bff;
-    margin-block: 1em 2em;
-    padding: 2em;
-
-    /* primary accent color */
-    b { color: #ff3aa1; font-weight: normal }
-
-    /* secondary accent color */
-    em { color: #278e4f; font-style: normal; }
-
-    /* special emphasis */
-    strong { color: #00c9ff; font-weight: normal }
-
-    /* brackets, commas, semicolons... */
-    i { color: var(--base-400); font-style: normal; }
-
-    /* comments */
-    sup {
-      opacity: .5;
-      vertical-align: inherit;
-      color: var(--base-600);
-      font-size: inherit;
+        /* footer */
+        > footer {
+            text-align: center;
+            border-top: 1px solid var(--base-200);
+            color: var(--base-400);
+            padding-block: 6rem;
+        }
     }
 
-    /* highlight */
-    label {
-      font-weight: bold;
-      color: #0069d4;
+    /* typography */
+    h1,
+    h2,
+    h3,
+    strong {
+        color: #e0e0e0;
     }
-  }
+
+    h1 {
+        font-size: 2.5em;
+        font-weight: 800;
+        line-height: 1.125;
+        letter-spacing: -0.02em;
+        margin-block: 0.25em;
+
+        + p {
+            font-size: 1.25em;
+            margin: 0;
+        }
+    }
+
+    h2 {
+        margin-block: 3em -0.25em;
+    }
+
+    p {
+        text-wrap: pretty;
+    }
+
+    /* placeholder images */
+    figure {
+        background-color: var(--base-200);
+        margin: 1.5em 0;
+
+        > div {
+            height: var(--height);
+        }
+
+        @media (width > 900px) {
+            &.hero {
+                margin: 3em -15vw;
+            }
+        }
+
+        /* bauhaus coloring */
+        &.yellow {
+            background-color: #eab308;
+        }
+        &.blue {
+            background-color: #2563eb;
+        }
+        &.red {
+            background-color: #dc2626;
+        }
+    }
+
+    /* syntax blocks */
+    pre {
+        background-color: #1e1e1e;
+        color: #80b3ff;
+        margin-block: 1em 2em;
+        padding: 2em;
+
+        /* primary accent color */
+        b {
+            color: #ff4db8;
+            font-weight: normal;
+        }
+
+        /* secondary accent color */
+        em {
+            color: #34d399;
+            font-style: normal;
+        }
+
+        /* special emphasis */
+        strong {
+            color: #38bdf8;
+            font-weight: normal;
+        }
+
+        /* brackets, commas, semicolons... */
+        i {
+            color: var(--base-400);
+            font-style: normal;
+        }
+
+        /* comments */
+        sup {
+            opacity: 0.5;
+            vertical-align: inherit;
+            color: var(--base-400);
+            font-size: inherit;
+        }
+
+        /* highlight */
+        label {
+            font-weight: bold;
+            color: #60a5fa;
+        }
+    }
 }
 
 @layer components {
+    /* major listings */
+    ul:has(h2, h3) {
+        list-style-type: none;
+        margin-block: 3rem;
+        padding: 0;
 
-  /* major listings */
-  ul:has(h2, h3) {
-    list-style-type: none;
-    margin-block: 3rem;
-    padding: 0;
+        a {
+            text-decoration: none;
+        }
 
-    a { text-decoration: none }
+        h3,
+        p {
+            margin-block: 0.25em;
+        }
 
-    h3, p { margin-block: .25em }
+        p {
+            color: var(--base-600);
+        }
 
-    p { color: var(--base-600) }
+        time {
+            color: var(--base-400);
+        }
 
-    time { color: var(--base-400) }
-
-    li {
-      margin-bottom: 2em;
-      &:hover h3 { text-decoration: underline }
+        li {
+            margin-bottom: 2em;
+            &:hover h3 {
+                text-decoration: underline;
+            }
+        }
     }
-
-  }
-
 }
