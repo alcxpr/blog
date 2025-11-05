@@ -1,0 +1,5 @@
+---
+title: Writing a rating algorithm with PageRank
+date: 2025-11-06
+tags: [algorithm]
+---

@@ -1,0 +1,39 @@
+---
+import { ViewTransitions } from "astro:transitions";
+import { SITE, THEME } from "../config";
+import "../styles/global.css";
+
+interface Props {
+    title?: string;
+    description?: string;
+}
+
+const { title = SITE.title, description = SITE.description } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="icon" href="/favicon.ico" />
+        <title>{title}</title>
+        <meta name="description" content={description} />
+        <meta name="author" content={SITE.author} />
+        {THEME.viewTransitions && <ViewTransitions />}
+    </head>
+    <body>
+        <header>
+            <a href="/">{SITE.author}</a>
+            <a href={SITE.social.github} aria-label="GitHub">
+                <img src="/assets/dark/github.svg" alt="GitHub" />
+            </a>
+        </header>
+
+        <main>
+            <slot />
+        </main>
+
+        <footer>© Copyright {new Date().getFullYear()} / {SITE.author}</footer>
+    </body>
+</html>

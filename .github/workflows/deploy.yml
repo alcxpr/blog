@@ -1,5 +1,5 @@
 # Deploy to GitHub pages CI/CD script
-# for NueJS blog
+# for Astro blog
 name: Deploy to GitHub pages
 
 # Trigger when either main branch is updated or from manual runs
@@ -16,7 +16,7 @@ permissions:
   pages: write
   id-token: write
 
-# This is to enture that concurrent runs will not overlap and cause
+# This is to ensure that concurrent runs will not overlap and cause
 # race conditions.
 concurrency:
   group: "pages"
@@ -27,10 +27,10 @@ jobs:
     runs-on: ubuntu-latest
 
     # This simply checks out the repository content and setup the
-    # Bun runtime. Then, install Nuekit globally via Bun CLI.
+    # Bun runtime. Then, install dependencies via Bun CLI.
     #
     # After that, build the site. The output is defaulted to `./dist`
-    # directory. Now, deploy `./.dist` contents to the `pages` branch.
+    # directory. Now, deploy `./dist` contents to the `pages` branch.
     # If the branch doesn't exist, it will be created automatically.
     steps:
       - name: Checkout Repository
@@ -47,14 +47,14 @@ jobs:
         run: bun install
 
       - name: Build site
-        run: bunx nue build
+        run: bun run build
 
       # Upload built site as an artifact for GitHub Pages deployment.
       # GitHub will handle the publishing to the internal `github-pages` environment.
       - name: Upload Build Artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./.dist
+          path: ./dist
 
   deploy:
     # The deploy job publishes the uploaded site artifact to GitHub pages.

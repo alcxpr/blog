@@ -4,7 +4,6 @@ date: 2025-11-04
 tags: [random]
 ---
 
-# Hello, World!
 Saying hello from my first blog post!
 
 Welcome to my blog. Here, I will be posting about programming and compilers. In this first post, I am going to talk about the
