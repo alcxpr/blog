@@ -1,9 +1,8 @@
-# Blog
+# Al
 
-This is my blog's source code. It also is my frontend playground.
-Currently, it features a super minimal site from the `blog` template.
-
-Most posts here are about compiler behaviors and low-level stuffs like file formats.
+Hi, I'm Al and I like compilers. My focus is on code optimization and generation. This repository is also my blog's source code.
+It also is my frontend playground. Currently, it features a super minimal site from the `blog` template. Most posts here are about
+compiler behaviors and low-level stuffs like file formats.
 
 ## Deploy
 
