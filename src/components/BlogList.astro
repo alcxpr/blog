@@ -1,11 +1,13 @@
 ---
 import type { CollectionEntry } from "astro:content";
+import TagList from "./TagList.astro";
 
 interface Props {
   posts: CollectionEntry<"blog">[];
+  showTags?: boolean;
 }
 
-const { posts } = Astro.props;
+const { posts, showTags = true } = Astro.props;
 
 function formatDate(date: Date): string {
   return new Date(date).toLocaleDateString("en-US", {
@@ -20,14 +22,46 @@ function formatDate(date: Date): string {
   {
     posts.map((post) => (
       <li>
-        <a href={`/blog/${post.slug}`}>
+        <article class="post-item">
           <p>
             <time datetime={post.data.date.toISOString()}>{formatDate(post.data.date)}</time>
           </p>
-          <h3>{post.data.title}</h3>
-          {post.data.description && <p>{post.data.description}</p>}
-        </a>
+          <h3>
+            <a href={`/blog/${post.slug}`} class="post-link">
+              {post.data.title}
+            </a>
+          </h3>
+          {post.data.description && <p class="description">{post.data.description}</p>}
+          {showTags && post.data.tags.length > 0 && (
+            <div class="post-tags">
+              <TagList tags={post.data.tags} />
+            </div>
+          )}
+        </article>
       </li>
     ))
   }
 </ul>
+
+<style>
+  .post-item {
+    display: block;
+  }
+
+  .post-link {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .post-link:hover {
+    text-decoration: underline;
+  }
+
+  .post-tags {
+    margin-top: 0.75rem;
+  }
+
+  .description {
+    margin-bottom: 0.5rem;
+  }
+</style>

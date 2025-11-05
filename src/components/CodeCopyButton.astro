@@ -1,0 +1,123 @@
+---
+import { Icon } from "astro-icon/components";
+---
+
+<template id="code-icon-template">
+  <Icon name="lucide:code" />
+</template>
+
+<template id="copy-button-template">
+  <button class="copy-button" aria-label="Copy code">
+    <Icon name="lucide:copy" class="copy-icon" />
+    <Icon name="lucide:check" class="check-icon" />
+  </button>
+</template>
+
+<script>
+  const languageMap: Record<string, string> = {
+    py: "python",
+    python: "python",
+    js: "javascript",
+    javascript: "javascript",
+    ts: "typescript",
+    typescript: "typescript",
+    c: "c",
+    cpp: "c++",
+    "c++": "c++",
+    cxx: "c++",
+    cc: "c++",
+    rs: "rust",
+    rust: "rust",
+    go: "go",
+    java: "java",
+    kt: "kotlin",
+    kotlin: "kotlin",
+    swift: "swift",
+    rb: "ruby",
+    ruby: "ruby",
+    php: "php",
+    sh: "shell",
+    bash: "bash",
+    zsh: "zsh",
+    fish: "fish",
+    html: "html",
+    css: "css",
+    json: "json",
+    xml: "xml",
+    yaml: "yaml",
+    yml: "yaml",
+    md: "markdown",
+    markdown: "markdown",
+  };
+
+  function wrapCodeBlocks() {
+    const codeIconTemplate = document.getElementById("code-icon-template") as HTMLTemplateElement;
+    const copyButtonTemplate = document.getElementById(
+      "copy-button-template"
+    ) as HTMLTemplateElement;
+    if (!codeIconTemplate || !copyButtonTemplate) return;
+
+    const codeBlocks = document.querySelectorAll("pre");
+
+    codeBlocks.forEach((pre) => {
+      if (pre.parentElement?.classList.contains("code-block-wrapper")) return;
+
+      const code = pre.querySelector("code");
+      if (!code) return;
+
+      const langAttr = pre.getAttribute("data-language") || "";
+      const language = languageMap[langAttr.toLowerCase()] || langAttr;
+
+      const wrapper = document.createElement("div");
+      wrapper.className = "code-block-wrapper";
+
+      const header = document.createElement("div");
+      header.className = "code-header";
+
+      const langInfo = document.createElement("div");
+      langInfo.className = "code-lang-info";
+
+      const icon = codeIconTemplate.content.cloneNode(true);
+      langInfo.appendChild(icon);
+
+      if (language) {
+        const langName = document.createElement("span");
+        langName.textContent = language;
+        langInfo.appendChild(langName);
+      }
+
+      header.appendChild(langInfo);
+
+      const button = copyButtonTemplate.content.cloneNode(true) as DocumentFragment;
+      const buttonElement = button.querySelector(".copy-button") as HTMLButtonElement;
+
+      if (buttonElement) {
+        buttonElement.addEventListener("click", async () => {
+          const codeText = code.textContent || "";
+          try {
+            await navigator.clipboard.writeText(codeText);
+            buttonElement.classList.add("copied");
+            setTimeout(() => {
+              buttonElement.classList.remove("copied");
+            }, 2000);
+          } catch (err) {
+            console.error("Failed to copy code:", err);
+          }
+        });
+        header.appendChild(buttonElement);
+      }
+
+      pre.parentNode?.insertBefore(wrapper, pre);
+      wrapper.appendChild(header);
+      wrapper.appendChild(pre);
+    });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", wrapCodeBlocks);
+  } else {
+    wrapCodeBlocks();
+  }
+
+  document.addEventListener("astro:after-swap", wrapCodeBlocks);
+</script>

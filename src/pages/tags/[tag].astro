@@ -1,0 +1,96 @@
+---
+import { getCollection } from "astro:content";
+import { Icon } from "astro-icon/components";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import BlogList from "../../components/BlogList.astro";
+import HomeIcon from "../../components/HomeIcon.astro";
+import { getPublishedPostsSorted } from "../../utils/posts";
+import { getAllTags, getPostsByTag, slugifyTag } from "../../utils/tags";
+
+export async function getStaticPaths() {
+  const allPosts = await getCollection("blog");
+  const tags = getAllTags(allPosts);
+
+  return tags.map((tag) => ({
+    params: { tag: slugifyTag(tag) },
+    props: { tag },
+  }));
+}
+
+const { tag } = Astro.props;
+const allPosts = await getCollection("blog");
+const taggedPosts = getPostsByTag(allPosts, tag);
+const posts = getPublishedPostsSorted(taggedPosts);
+---
+
+<BaseLayout
+  title={`Posts tagged "${tag}" - Compiler Log`}
+  description={`Browse all posts tagged with ${tag}`}
+>
+  <article>
+    <HomeIcon />
+
+    <div class="tag-header">
+      <h1>Posts tagged: <span class="tag-name">{tag}</span></h1>
+      <p class="post-count">{posts.length} {posts.length === 1 ? "post" : "posts"}</p>
+    </div>
+
+    <a href="/tags" class="back-link">
+      <Icon name="lucide:arrow-left" size={16} />
+      <span>All tags</span>
+    </a>
+
+    {
+      posts.length === 0 ? (
+        <p>No published posts found with this tag.</p>
+      ) : (
+        <BlogList posts={posts} />
+      )
+    }
+  </article>
+</BaseLayout>
+
+<style>
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--muted-color, #9ca3af);
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: color 0.2s ease;
+    margin-bottom: 2rem;
+  }
+
+  .back-link:hover {
+    color: var(--text-color, #f5f5f5);
+  }
+
+  .tag-header {
+    margin-bottom: 1.5rem;
+  }
+
+  .tag-name {
+    color: var(--accent-color, #60a5fa);
+    font-weight: 600;
+  }
+
+  .post-count {
+    color: var(--muted-color, #9ca3af);
+    font-size: 0.95rem;
+    margin-top: 0.5rem;
+  }
+
+  [data-theme="light"] .tag-name {
+    color: #2563eb;
+  }
+
+  [data-theme="light"] .post-count,
+  [data-theme="light"] .back-link {
+    color: #6b7280;
+  }
+
+  [data-theme="light"] .back-link:hover {
+    color: #1f2937;
+  }
+</style>

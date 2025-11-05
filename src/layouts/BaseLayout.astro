@@ -8,9 +8,11 @@ import "../styles/global.css";
 interface Props {
   title?: string;
   description?: string;
+  canonical?: string;
 }
 
-const { title = SITE.title, description = SITE.description } = Astro.props;
+const { title = SITE.title, description = SITE.description, canonical } = Astro.props;
+const canonicalURL = canonical || new URL(Astro.url.pathname, SITE.url).href;
 ---
 
 <!doctype html>
@@ -22,15 +24,28 @@ const { title = SITE.title, description = SITE.description } = Astro.props;
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="author" content={SITE.author} />
+    <link rel="canonical" href={canonicalURL} />
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:site_name" content={SITE.title} />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary" />
+    <meta property="twitter:url" content={canonicalURL} />
+    <meta property="twitter:title" content={title} />
+    <meta property="twitter:description" content={description} />
     <script is:inline>
-      // Initialize theme before page renders to prevent flash
-      (function() {
+      // This initializes theme before page renders to prevent flash.
+      // Defaults to dark theme.
+      (function () {
         const STORAGE_KEY = "theme";
-        const LIGHT = "light";
         const theme = localStorage.getItem(STORAGE_KEY);
-        if (theme === LIGHT) {
-          document.documentElement.setAttribute("data-theme", LIGHT);
-        }
+        const isLight = theme === "light";
+        document.documentElement.setAttribute("data-theme", isLight ? "light" : "dark");
       })();
     </script>
     {THEME.viewTransitions && <ClientRouter />}

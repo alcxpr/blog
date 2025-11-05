@@ -52,7 +52,6 @@ import { Icon } from "astro-icon/components";
   const DARK = "dark";
   const LIGHT = "light";
 
-  const themeToggle = document.getElementById("theme-toggle");
   const htmlElement = document.documentElement;
 
   function getTheme(): string {
@@ -63,12 +62,7 @@ import { Icon } from "astro-icon/components";
   }
 
   function setTheme(theme: string) {
-    if (theme === LIGHT) {
-      htmlElement.setAttribute("data-theme", LIGHT);
-    } else {
-      htmlElement.removeAttribute("data-theme");
-    }
-
+    htmlElement.setAttribute("data-theme", theme);
     if (typeof localStorage !== "undefined") {
       localStorage.setItem(STORAGE_KEY, theme);
     }
@@ -80,10 +74,24 @@ import { Icon } from "astro-icon/components";
     setTheme(newTheme);
   }
 
+  function initThemeToggle() {
+    const themeToggle = document.getElementById("theme-toggle");
+    if (themeToggle) {
+      themeToggle.addEventListener("click", toggleTheme);
+    }
+  }
+
+  // Initialize the theme first. Then, wait for DOM to be ready before
+  // attaching event listeners.
   setTheme(getTheme());
-  themeToggle?.addEventListener("click", toggleTheme);
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initThemeToggle);
+  } else {
+    initThemeToggle();
+  }
 
   document.addEventListener("astro:after-swap", () => {
     setTheme(getTheme());
+    initThemeToggle();
   });
 </script>

@@ -1,0 +1,66 @@
+---
+import { slugifyTag } from "../utils/tags";
+
+interface Props {
+  tags: string[];
+  showCount?: boolean;
+}
+
+const { tags, showCount = false } = Astro.props;
+---
+
+{
+  tags.length > 0 && (
+    <ul class="tag-list">
+      {tags.map((tag) => (
+        <li>
+          <a href={`/tags/${slugifyTag(tag)}`} class="tag-badge">
+            {tag}
+          </a>
+        </li>
+      ))}
+    </ul>
+  )
+}
+
+<style>
+  .tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    list-style: none; /* darker tint for hover */
+    padding: 0;
+    margin: 0;
+  }
+
+  .tag-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    background-color: var(--tag-bg, rgba(255, 255, 255, 0.1));
+    color: var(--tag-color, #d1d5db);
+    border: 1px solid var(--tag-border, rgba(255, 255, 255, 0.2));
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+
+  .tag-badge:hover {
+    background-color: var(--tag-hover-bg, rgba(255, 255, 255, 0.2));
+    border-color: var(--tag-hover-border, rgba(255, 255, 255, 0.4));
+    transform: translateY(-1px);
+  }
+
+  /* We use :global() to espond to global attributes. */
+  :global([data-theme="light"] .tag-badge) {
+    background-color: #e0e7ff;
+    color: #1e3a8a;
+    border-color: #6366f1;
+  }
+
+  :global([data-theme="light"] .tag-badge:hover) {
+    background-color: #c7d2fe;
+    border-color: #4f46e5;
+  }
+</style>

@@ -1,0 +1,91 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import HomeIcon from "../../components/HomeIcon.astro";
+import { getPublishedPosts } from "../../utils/posts";
+import { getTagCountsArray, slugifyTag } from "../../utils/tags";
+
+const allPosts = await getCollection("blog");
+const posts = getPublishedPosts(allPosts);
+const tagCounts = getTagCountsArray(posts);
+---
+
+<BaseLayout title="Tags - Compiler Log" description="Browse posts by tag">
+  <article>
+    <HomeIcon />
+    <h1>Tags</h1>
+    <p>Browse posts by topic</p>
+
+    {
+      tagCounts.length === 0 ? (
+        <p>No tags found.</p>
+      ) : (
+        <ul class="tag-list">
+          {tagCounts.map(([tag, count]) => (
+            <li>
+              <a href={`/tags/${slugifyTag(tag)}`} class="tag-item">
+                <span class="tag-name">{tag}</span>
+                <span class="tag-count">{count}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+  </article>
+</BaseLayout>
+
+<style>
+  .tag-list {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 0.75rem;
+    margin-top: 2rem;
+  }
+
+  .tag-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border-color, #333);
+    border-radius: 0.5rem;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+
+  .tag-item:hover {
+    background-color: var(--hover-bg, rgba(255, 255, 255, 0.05));
+    border-color: var(--hover-border, #555);
+    transform: translateX(4px);
+  }
+
+  .tag-name {
+    font-weight: 500;
+    font-size: 1.1rem;
+  }
+
+  .tag-count {
+    background-color: var(--count-bg, rgba(255, 255, 255, 0.1));
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    min-width: 2rem;
+    text-align: center;
+  }
+
+  [data-theme="light"] .tag-item {
+    border-color: #ddd;
+  }
+
+  [data-theme="light"] .tag-item:hover {
+    background-color: rgba(0, 0, 0, 0.03);
+    border-color: #999;
+  }
+
+  [data-theme="light"] .tag-count {
+    background-color: rgba(0, 0, 0, 0.08);
+  }
+</style>
