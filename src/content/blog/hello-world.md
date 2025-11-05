@@ -13,4 +13,4 @@ To begin with, I started this blog to record what I learn and work on. Most post
 
 This blog will continue to have its layout updated, as I am practicing UI/UX and front end in general. Currently, this website is using [nue](https://github.com/nuejs/nue), but I might switch to either [astro](https://github.com/withastro/astro) or [React](https://react.dev) instead because they are much more consistent than nue.
 
-I am also a *very* active player in Gacha games. My favorites are Honkai: Star Rail and Fate/Grand Order. Do message me on Discord if you have inquiries.
+I am also a _very_ active player in Gacha games. My favorites are Honkai: Star Rail and Fate/Grand Order. Do message me on Discord if you have inquiries.

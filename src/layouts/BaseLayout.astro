@@ -1,11 +1,13 @@
 ---
-import { ViewTransitions } from "astro:transitions";
+import { ClientRouter, ViewTransitions } from "astro:transitions";
 import { SITE, THEME } from "../config";
+import ThemeToggle from "../components/ThemeToggle.astro";
+import GitHubIcon from "../components/GitHubIcon.astro";
 import "../styles/global.css";
 
 interface Props {
-    title?: string;
-    description?: string;
+  title?: string;
+  description?: string;
 }
 
 const { title = SITE.title, description = SITE.description } = Astro.props;
@@ -13,27 +15,47 @@ const { title = SITE.title, description = SITE.description } = Astro.props;
 
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="icon" href="/favicon.ico" />
-        <title>{title}</title>
-        <meta name="description" content={description} />
-        <meta name="author" content={SITE.author} />
-        {THEME.viewTransitions && <ViewTransitions />}
-    </head>
-    <body>
-        <header>
-            <a href="/">{SITE.author}</a>
-            <a href={SITE.social.github} aria-label="GitHub">
-                <img src="/assets/dark/github.svg" alt="GitHub" />
-            </a>
-        </header>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="/favicon.ico" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content={SITE.author} />
+    <script is:inline>
+      // Initialize theme before page renders to prevent flash
+      (function() {
+        const STORAGE_KEY = "theme";
+        const LIGHT = "light";
+        const theme = localStorage.getItem(STORAGE_KEY);
+        if (theme === LIGHT) {
+          document.documentElement.setAttribute("data-theme", LIGHT);
+        }
+      })();
+    </script>
+    {THEME.viewTransitions && <ClientRouter />}
+  </head>
+  <body>
+    <header>
+      <a href="/">{SITE.author}</a>
+      <div class="header-actions">
+        <ThemeToggle />
+        <GitHubIcon href={SITE.social.github} />
+      </div>
+    </header>
 
-        <main>
-            <slot />
-        </main>
+    <main>
+      <slot />
+    </main>
 
-        <footer>© Copyright {new Date().getFullYear()} / {SITE.author}</footer>
-    </body>
+    <footer>© Copyright {new Date().getFullYear()} / {SITE.author}</footer>
+  </body>
 </html>
+
+<style>
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+</style>

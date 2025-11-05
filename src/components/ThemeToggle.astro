@@ -1,0 +1,89 @@
+---
+import { Icon } from "astro-icon/components";
+---
+
+<button id="theme-toggle" aria-label="Toggle theme" type="button">
+  <Icon name="lucide:moon" class="theme-icon theme-dark" />
+  <Icon name="lucide:sun" class="theme-icon theme-light" />
+</button>
+
+<style>
+  #theme-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--base-800);
+    transition: opacity 0.2s;
+  }
+
+  #theme-toggle:hover {
+    opacity: 0.7;
+  }
+
+  .theme-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    display: block;
+  }
+
+  .theme-dark {
+    display: block;
+  }
+
+  .theme-light {
+    display: none;
+  }
+
+  :root[data-theme="light"] .theme-dark {
+    display: none;
+  }
+
+  :root[data-theme="light"] .theme-light {
+    display: block;
+  }
+</style>
+
+<script>
+  const STORAGE_KEY = "theme";
+  const DARK = "dark";
+  const LIGHT = "light";
+
+  const themeToggle = document.getElementById("theme-toggle");
+  const htmlElement = document.documentElement;
+
+  function getTheme(): string {
+    if (typeof localStorage !== "undefined") {
+      return localStorage.getItem(STORAGE_KEY) || DARK;
+    }
+    return DARK;
+  }
+
+  function setTheme(theme: string) {
+    if (theme === LIGHT) {
+      htmlElement.setAttribute("data-theme", LIGHT);
+    } else {
+      htmlElement.removeAttribute("data-theme");
+    }
+
+    if (typeof localStorage !== "undefined") {
+      localStorage.setItem(STORAGE_KEY, theme);
+    }
+  }
+
+  function toggleTheme() {
+    const currentTheme = getTheme();
+    const newTheme = currentTheme === DARK ? LIGHT : DARK;
+    setTheme(newTheme);
+  }
+
+  setTheme(getTheme());
+  themeToggle?.addEventListener("click", toggleTheme);
+
+  document.addEventListener("astro:after-swap", () => {
+    setTheme(getTheme());
+  });
+</script>

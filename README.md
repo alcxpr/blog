@@ -17,7 +17,7 @@ $ git clone https://github.com/alcxpr/blog.git
 # curl -fsSL https://bun.sh/install | bash
 #
 $ bun install
-$ bunx nue serve
+$ bunx run build
 ```
 
 ## License
