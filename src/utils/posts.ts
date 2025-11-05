@@ -1,5 +1,14 @@
 import type { CollectionEntry } from "astro:content";
 
+/// Calculates reading time in minutes based on word count.
+/// Assumes average reading speed of 200 words per minute.
+export function calculateReadingTime(content: string): number {
+  const wordsPerMinute = 200;
+  const words = content.trim().split(/\s+/).length;
+  const minutes = Math.ceil(words / wordsPerMinute);
+  return minutes;
+}
+
 /// Filters posts with future dates (scheduled posts).
 export function getPublishedPosts(posts: CollectionEntry<"blog">[]): CollectionEntry<"blog">[] {
   const now = new Date();

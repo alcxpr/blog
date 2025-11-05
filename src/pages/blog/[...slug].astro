@@ -5,7 +5,8 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import TagList from "../../components/TagList.astro";
 import HomeIcon from "../../components/HomeIcon.astro";
 import CodeCopyButton from "../../components/CodeCopyButton.astro";
-import { getPublishedPosts } from "../../utils/posts";
+import Breadcrumb from "../../components/Breadcrumb.astro";
+import { getPublishedPosts, calculateReadingTime } from "../../utils/posts";
 
 export async function getStaticPaths() {
   const allPosts = await getCollection("blog");
@@ -29,14 +30,25 @@ function formatDate(date: Date): string {
     day: "numeric",
   });
 }
+
+const readingTime = calculateReadingTime(post.body);
+
+const breadcrumbItems = [
+  { label: "Home", href: "/" },
+  { label: post.data.title },
+];
 ---
 
 <BaseLayout title={`${post.data.title} - Compiler Log`} description={post.data.description}>
   <article>
-    <HomeIcon />
+    <Breadcrumb items={breadcrumbItems} />
     <h1>{post.data.title}</h1>
     <div class="post-meta">
-      <time datetime={post.data.date.toISOString()}>{formatDate(post.data.date)}</time>
+      <div class="post-info">
+        <time datetime={post.data.date.toISOString()}>{formatDate(post.data.date)}</time>
+        <span class="separator">•</span>
+        <span class="reading-time">{readingTime} min read</span>
+      </div>
       {
         post.data.tags.length > 0 && (
           <div class="post-tags">
@@ -58,16 +70,34 @@ function formatDate(date: Date): string {
     margin-bottom: 2rem;
   }
 
+  .post-info {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--muted-color, #9ca3af);
+    font-size: 0.95rem;
+  }
+
+  .separator {
+    color: var(--muted-color, #9ca3af);
+  }
+
+  .reading-time {
+    color: var(--muted-color, #9ca3af);
+  }
+
   .post-tags {
     margin-top: 0.5rem;
   }
 
   time {
     color: var(--muted-color, #9ca3af);
-    font-size: 0.95rem;
   }
 
-  [data-theme="light"] time {
+  [data-theme="light"] .post-info,
+  [data-theme="light"] time,
+  [data-theme="light"] .separator,
+  [data-theme="light"] .reading-time {
     color: #6b7280;
   }
 </style>
