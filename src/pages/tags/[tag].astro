@@ -5,12 +5,13 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import BlogList from "../../components/BlogList.astro";
 import HomeIcon from "../../components/HomeIcon.astro";
 import Breadcrumb from "../../components/Breadcrumb.astro";
-import { getPublishedPostsSorted } from "../../utils/posts";
+import { getPublishedPostsSorted, filterDrafts } from "../../utils/posts";
 import { getAllTags, getPostsByTag, slugifyTag } from "../../utils/tags";
 
 export async function getStaticPaths() {
   const allPosts = await getCollection("blog");
-  const tags = getAllTags(allPosts);
+  const publishedPosts = filterDrafts(allPosts);
+  const tags = getAllTags(publishedPosts);
 
   return tags.map((tag) => ({
     params: { tag: slugifyTag(tag) },
@@ -20,7 +21,8 @@ export async function getStaticPaths() {
 
 const { tag } = Astro.props;
 const allPosts = await getCollection("blog");
-const taggedPosts = getPostsByTag(allPosts, tag);
+const filteredPosts = filterDrafts(allPosts);
+const taggedPosts = getPostsByTag(filteredPosts, tag);
 const posts = getPublishedPostsSorted(taggedPosts);
 
 const breadcrumbItems = [

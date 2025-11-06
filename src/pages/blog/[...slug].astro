@@ -33,10 +33,7 @@ function formatDate(date: Date): string {
 
 const readingTime = calculateReadingTime(post.body);
 
-const breadcrumbItems = [
-  { label: "Home", href: "/" },
-  { label: post.data.title },
-];
+const breadcrumbItems = [{ label: "Home", href: "/" }, { label: post.data.title }];
 ---
 
 <BaseLayout title={`${post.data.title} - Compiler Log`} description={post.data.description}>

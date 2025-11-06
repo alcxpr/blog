@@ -3,17 +3,14 @@ import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import HomeIcon from "../../components/HomeIcon.astro";
 import Breadcrumb from "../../components/Breadcrumb.astro";
-import { getPublishedPosts } from "../../utils/posts";
+import { getPublishedPosts, filterDrafts } from "../../utils/posts";
 import { getTagCountsArray, slugifyTag } from "../../utils/tags";
 
 const allPosts = await getCollection("blog");
-const posts = getPublishedPosts(allPosts);
+const posts = getPublishedPosts(filterDrafts(allPosts));
 const tagCounts = getTagCountsArray(posts);
 
-const breadcrumbItems = [
-  { label: "Home", href: "/" },
-  { label: "Tags" },
-];
+const breadcrumbItems = [{ label: "Home", href: "/" }, { label: "Tags" }];
 ---
 
 <BaseLayout title="Tags - Compiler Log" description="Browse posts by tag">

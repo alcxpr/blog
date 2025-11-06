@@ -200,7 +200,7 @@
   }
 
   :root[data-theme="light"] .code-block-wrapper pre {
-    background-color: #f5f5f5 !important;
+    background-color: #1a1a1a !important;
   }
 
   .code-block-wrapper pre code {
